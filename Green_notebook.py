@@ -13,8 +13,8 @@
 import warnings
 warnings.filterwarnings('ignore')
 
-print("✅ All packages installed successfully!")
-print("⏳ Now run the next cells to load the interactive dashboard...")
+print("All packages installed successfully!")
+print(" Now run the next cells to load the interactive dashboard...")
 
 # =============================================================================
 # NADES-ML: Advanced Machine Learning for Natural Deep Eutectic Solvents
@@ -60,7 +60,7 @@ import lime.lime_tabular
 import warnings
 warnings.filterwarnings('ignore')
 
-print("✅ All libraries imported successfully!")
+print(" All libraries imported successfully!")
 print(f"PyTorch version: {torch.__version__}")
 print(f"CUDA available: {torch.cuda.is_available()}")
 
@@ -117,8 +117,8 @@ compounds_data = {
 
 compounds_df = pd.DataFrame(compounds_data)
 
-print(f"📋 NADES Systems: {len(nades_df)}")
-print(f"💊 Organometallic Compounds: {len(compounds_df)}")
+print(f" NADES Systems: {len(nades_df)}")
+print(f" Organometallic Compounds: {len(compounds_df)}")
 print(f"\n=== NADES Dataset Preview ===")
 display(nades_df.head(10))
 print(f"\n=== Organometallic Compounds ===")
@@ -209,8 +209,8 @@ feature_cols = [c for c in interaction_df.columns if c not in [
 target_cols = ['solubility_enhancement', 'stability_enhancement', 'cell_viability',
                'skin_permeation', 'anti_cancer_IC50', 'synergistic_score']
 
-print(f"✅ Generated {len(interaction_df)} interaction samples")
-print(f"📊 Features: {len(feature_cols)}, Targets: {len(target_cols)}")
+print(f" Generated {len(interaction_df)} interaction samples")
+print(f" Features: {len(feature_cols)}, Targets: {len(target_cols)}")
 print("\n=== Feature Correlation Heatmap ===")
 
 # Create and save heatmap file directly instead of breaking with plt.show()
@@ -221,7 +221,7 @@ plt.title('Feature Correlation Matrix', fontsize=14, fontweight='bold')
 plt.tight_layout()
 plt.savefig('feature_correlation.png')
 plt.close()
-print("💾 Correlation heatmap saved successfully as 'feature_correlation.png'!")
+print(" Correlation heatmap saved successfully as 'feature_correlation.png'!")
 
 # =============================================================================
 # Comprehensive Multi-Model Training Pipeline
@@ -268,7 +268,7 @@ trained_models = {}  # Dictionary to save the actual trained models for later de
 
 for target in target_cols:
     print(f"\n{'='*70}")
-    print(f"🎯 Target: {target}")
+    print(f" Target: {target}")
     print(f"{'='*70}")
 
     y = interaction_df[target].values
@@ -310,13 +310,13 @@ for target in target_cols:
             print(f"  {name}: R²={r2_test:.4f} | RMSE={rmse_test:.4f} | CV={cv_scores.mean():.4f}±{cv_scores.std():.4f}")
 
         except Exception as e:
-            print(f"  ❌ {name}: {e}")
+            print(f"   {name}: {e}")
 
     results_all[target] = pd.DataFrame(results).sort_values('R² Test', ascending=False)
 
 # Display best models summary
 print("\n\n" + "="*70)
-print("🏆 BEST MODELS PER TARGET")
+print(" BEST MODELS PER TARGET")
 print("="*70)
 for target, df in results_all.items():
     if not df.empty:
@@ -473,7 +473,7 @@ with torch.no_grad():
     y_test_original = y_scaler.inverse_transform(y_test_t.cpu().numpy())
 
 print(f"\n{'='*60}")
-print("📊 Per-Target R² Scores (Deep Learning)")
+print(" Per-Target R² Scores (Deep Learning)")
 print(f"{'='*60}")
 for i, target in enumerate(target_cols):
     r2 = r2_score(y_test_original[:, i], y_pred_original[:, i])
@@ -498,7 +498,7 @@ axes[1].set_title(f'Best Target: {target_cols[best_target_idx]}')
 plt.tight_layout()
 plt.savefig('nn_training_metrics.png')
 plt.close()
-print("💾 Neural Network training plots successfully saved as 'nn_training_metrics.png'!")
+print(" Neural Network training plots successfully saved as 'nn_training_metrics.png'!")
 
 # =============================================================================
 # Bayesian Hyperparameter Optimization with Optuna
@@ -532,7 +532,7 @@ study = optuna.create_study(direction='maximize', study_name='NADES-XGBoost')
 study.optimize(objective, n_trials=100)  # Clean log streaming for production
 
 print(f"\n{'='*60}")
-print(f"🏆 Best Trial: #{study.best_trial.number}")
+print(f" Best Trial: #{study.best_trial.number}")
 print(f"   Best R² Score: {study.best_value:.4f}")
 print(f"   Best Parameters:")
 for key, value in study.best_params.items():
@@ -560,7 +560,7 @@ axes[1].set_xlabel('Importance'); axes[1].set_title('Hyperparameter Importance')
 plt.tight_layout()
 plt.savefig('optuna_optimization.png')
 plt.close()
-print("💾 Optuna visualization plots successfully saved as 'optuna_optimization.png'!")
+print(" Optuna visualization plots successfully saved as 'optuna_optimization.png'!")
 
 # =============================================================================
 # Model Explainability: SHAP & LIME Analysis
@@ -586,7 +586,7 @@ plt.title(f'SHAP Feature Importance for {target_explain}', fontsize=14, fontweig
 plt.tight_layout()
 plt.savefig('shap_summary.png')
 plt.close()
-print("💾 Global SHAP summary saved successfully as 'shap_summary.png'!")
+print(" Global SHAP summary saved successfully as 'shap_summary.png'!")
 
 # 2. SHAP Dependency Plots (Top 4 Features)
 top_features = np.argsort(np.abs(shap_values).mean(axis=0))[-4:]
@@ -599,11 +599,11 @@ plt.suptitle('SHAP Dependency Plots - Top 4 Features', fontsize=14, fontweight='
 plt.tight_layout()
 plt.savefig('shap_dependency.png')
 plt.close()
-print("💾 SHAP dependency grid saved successfully as 'shap_dependency.png'!")
+print(" SHAP dependency grid saved successfully as 'shap_dependency.png'!")
 
 # LIME Explanation Setup
 print("\n" + "="*60)
-print("🍋 LIME Explanation for Sample Prediction")
+print(" LIME Explanation for Sample Prediction")
 print("="*60)
 
 lime_explainer = lime.lime_tabular.LimeTabularExplainer(
@@ -627,7 +627,7 @@ plt.title('LIME Explanation for High-Synergy NADES-Drug Pair')
 plt.tight_layout()
 plt.savefig('lime_explanation.png')
 plt.close()
-print("💾 Local LIME report saved successfully as 'lime_explanation.png'!")
+print(" Local LIME report saved successfully as 'lime_explanation.png'!")
 
 # 4. Save SHAP Waterfall Force Plot
 plt.figure(figsize=(10, 6))
@@ -641,7 +641,7 @@ plt.title('SHAP Local Waterfall Explanation', fontsize=12, fontweight='bold')
 plt.tight_layout()
 plt.savefig('shap_waterfall.png')
 plt.close()
-print("💾 Local SHAP waterfall saved successfully as 'shap_waterfall.png'!")
+print(" Local SHAP waterfall saved successfully as 'shap_waterfall.png'!")
 
 # =============================================================================
 # Advanced Stacking Ensemble with Meta-Learner
@@ -687,13 +687,13 @@ r2_stack = r2_score(y_test_s, y_pred_stack)
 rmse_stack = np.sqrt(mean_squared_error(y_test_s, y_pred_stack))
 
 print(f"\n{'='*60}")
-print(f"🏆 Stacking Ensemble Results")
+print(f" Stacking Ensemble Results")
 print(f"  R² Score: {r2_stack:.4f}")
 print(f"  RMSE: {rmse_stack:.4f}")
 print(f"{'='*60}")
 
 # Compare individual performance metrics vs final stacked prediction model
-print("\n📊 Individual Model Comparison:")
+print("\n Individual Model Comparison:")
 for name, model in base_models:
     model.fit(X_train_s, y_train_s)
     r2_ind = r2_score(y_test_s, model.predict(X_test_s))
@@ -729,14 +729,14 @@ axes[2].set_title('Model Comparison')
 plt.tight_layout()
 plt.savefig('stacking_ensemble_metrics.png')
 plt.close()
-print("💾 Stacking performance plots successfully saved as 'stacking_ensemble_metrics.png'!")
+print(" Stacking performance plots successfully saved as 'stacking_ensemble_metrics.png'!")
 
 # =============================================================================
 # Automated Drug Discovery Pipeline
 # Screen all combinations & rank therapeutic candidates
 # =============================================================================
 
-print("🔬 Screening all NADES-Compound combinations...")
+print(" Screening all NADES-Compound combinations...")
 print(f"Total combinations: {len(nades_df)} × {len(compounds_df)} = {len(nades_df) * len(compounds_df)}")
 
 # Use best stacking model to predict all targets
@@ -774,7 +774,7 @@ screening_df['overall_score'] = screening_df['drugability_score'] * 0.7 + screen
 top_candidates = screening_df.nlargest(20, 'overall_score')
 
 print(f"\n{'='*70}")
-print("🏆 TOP 20 NADES-DRUG CANDIDATES FOR THERAPEUTIC DEVELOPMENT")
+print(" TOP 20 NADES-DRUG CANDIDATES FOR THERAPEUTIC DEVELOPMENT")
 print(f"{'='*70}")
 
 for rank, (idx, row) in enumerate(top_candidates.iterrows(), 1):
@@ -841,5 +841,5 @@ plt.tight_layout()
 plt.savefig('drug_discovery_pipeline.png')
 plt.close()
 
-print("\n✅ Drug discovery pipeline complete!")
-print("💾 Discovery analytics plots successfully saved as 'drug_discovery_pipeline.png'!")
+print("\n Drug discovery pipeline complete!")
+print(" Discovery analytics plots successfully saved as 'drug_discovery_pipeline.png'!")
